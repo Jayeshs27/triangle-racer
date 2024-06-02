@@ -12,7 +12,7 @@ unsigned int make_shaders(const std::string& vertex_filepath, const std::string&
     glLinkProgram(shader);
 
     int status;
-    glGetProgramiv(shader, GL_COMPILE_STATUS, &status);
+    glGetProgramiv(shader, GL_LINK_STATUS, &status);
     if(!status){
         char errorLog[1024];
         glGetProgramInfoLog(shader, 1024, NULL, errorLog);
@@ -31,9 +31,9 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type) 
     std::string line;
 
 
-    file.open("shaders/vertex.txt");
+    file.open(filepath);
     while(std::getline(file, line)) {
-        bufferedLines << line << std::endl;
+        bufferedLines << line << '\n';
     }
     std::string shaderSourceStr = bufferedLines.str();
     const char* shaderSrc = shaderSourceStr.c_str();
