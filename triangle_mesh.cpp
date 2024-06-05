@@ -1,19 +1,17 @@
 #include "triangle_mesh.h"
 
-TriangleMesh::TriangleMesh() {
+TriangleMesh::TriangleMesh(std::vector<float> positions, int color) {
     
-    std::vector<float> positions = {
-        -1.0f, -1.0f, 0.0f, 
-         1.0f, -1.0f, 0.0f, 
-        -1.0f,  1.0f, 0.0f, 
-         1.0f,  1.0f, 0.0f
-
-    };
+    // std::vector<float> positions = {
+    //     -1.0f, -1.0f, 0.0f, 
+    //      1.0f, -1.0f, 0.0f, 
+    //     -1.0f,  1.0f, 0.0f, 
+    // };
     std::vector<int> colorIndices = {
-        0, 1, 2, 3
+        color,color,color
     };
     std::vector<int> eleIndices = {
-        0, 1, 2, 2, 3, 1
+        0, 1, 2
     };
     vertex_count = 6;
 

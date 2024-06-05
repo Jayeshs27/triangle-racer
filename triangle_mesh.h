@@ -6,7 +6,7 @@
 
 class TriangleMesh {
 public:
-TriangleMesh();
+TriangleMesh(std::vector<float> positions, int color);
 void draw();
 ~TriangleMesh();
 
