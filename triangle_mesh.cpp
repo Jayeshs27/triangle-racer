@@ -7,6 +7,7 @@ TriangleMesh::TriangleMesh(std::vector<float> positions, int color) {
     //      1.0f, -1.0f, 0.0f, 
     //     -1.0f,  1.0f, 0.0f, 
     // };
+    translateVec = {0.0f, 0.0f, 0.0f};
     std::vector<int> colorIndices = {
         color,color,color
     };
@@ -51,6 +52,7 @@ void TriangleMesh::draw() {
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, vertex_count, GL_UNSIGNED_INT, 0);
 }
+
 
 TriangleMesh::~TriangleMesh() {
     glDeleteVertexArrays(1, &VAO);

@@ -1,13 +1,14 @@
 #if !defined(__TRIANGLE_MESH_H__)
 #define __TRIANGLE_MESH_H__
 
-#include "headers.h"
 #include "libraries.h"
 
 class TriangleMesh {
 public:
+glm::vec3 translateVec;
 TriangleMesh(std::vector<float> positions, int color);
 void draw();
+void TranslatePos(glm::vec3 pos);
 ~TriangleMesh();
 
 private:

@@ -89,6 +89,7 @@
         "expected": "cpp",
         "spanstream": "cpp",
         "stacktrace": "cpp",
-        "__nullptr": "cpp"
+        "__nullptr": "cpp",
+        "strstream": "cpp"
     }
 }

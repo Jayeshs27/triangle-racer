@@ -6,12 +6,13 @@ layout (location=1) in int colorIndex;
 out vec3 fragmentColor;
 out vec2 fragmentTexCoord;
 
-const vec3 colors[5] = vec3[](
+const vec3 colors[6] = vec3[](
     vec3(1.0, 0.0, 0.0),  // red
     vec3(0.0, 1.0, 0.0),  // green
     vec3(0.0, 0.0, 1.0),  // blue
     vec3(0.671, 0.671, 0.616), // grey
-    vec3(1.0, 1.0, 1.0) // white
+    vec3(1.0, 1.0, 1.0), // white
+    vec3(1, 0.984, 0) // yellow
 );
 
 uniform mat4 model;

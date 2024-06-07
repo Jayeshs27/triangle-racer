@@ -1,7 +1,6 @@
 #if !defined(__SHADERS_H__)
 #define __SHADERS_H__
 
-#include "headers.h"
 #include "libraries.h"
 
 unsigned int make_module(const std::string& filepath, unsigned int module_type);
