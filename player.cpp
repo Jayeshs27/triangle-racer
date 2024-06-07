@@ -9,6 +9,8 @@ Player::Player()
   lane = 2;
   translateVec = {0.0f, 0.0f, 0.0f};
   triangle = new TriangleMesh(playerPos, 2);
+  leftkeyPress = false;
+  rightkeyPress = false;
 }
 
 void Player::draw()
@@ -16,32 +18,42 @@ void Player::draw()
   triangle->draw();
 }
 
-void Player::goRight()
-{
-  if (lane != 1)
-  {
-    lane -= 1;
-    translateVec.x -= 0.5f;
-  }
-}
 void Player::goLeft()
 {
-  if (lane != 3)
+  if (lane > 1)
+  {
+    lane -= 1;
+    translateVec.x += 0.5f;
+  }
+}
+void Player::goRight()
+{
+  if (lane < 3)
   {
     lane += 1;
-    translateVec.x += 0.5f;
+    translateVec.x -= 0.5f;
   }
 }
 
 void Player::handleInput(GLFWwindow* window, glm::vec3& position)
 {
-  if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+  if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && !rightkeyPress)
   {
     goRight();
+    rightkeyPress = true;
   }
-  if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+  if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && !leftkeyPress)
   {
     goLeft();
+    leftkeyPress = true;
+  }
+  if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_RELEASE)
+  {
+    rightkeyPress = false;
+  }
+  if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_RELEASE)
+  {
+    leftkeyPress = false;
   }
   position = translateVec;
 }

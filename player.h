@@ -11,6 +11,7 @@ public:
 glm::vec3 translateVec;
 TriangleMesh* triangle;
 int lane;
+bool leftkeyPress, rightkeyPress;
 Player();
 void draw();
 void goRight();

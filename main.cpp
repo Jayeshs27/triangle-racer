@@ -40,12 +40,13 @@ int main()
 
   glClearColor(0.0f, 0.9f, 0.0f, 1.0f);
 
-  std::vector<TriangleMesh *> RoadTriangles;
-  std::vector<TriangleMesh *> WhiteCrossTriangles;
   // Material* material = new Material("images/img.jpeg");
   unsigned int shader = make_shaders("shaders/vertex.txt", "shaders/fragment.txt");
 
-  glUseProgram(shader);
+  // glUseProgram(shader);
+
+  std::vector<TriangleMesh *> RoadTriangles;
+  std::vector<TriangleMesh *> WhiteCrossTriangles;
 
   std::vector<float> positions1 = {
     1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f,
@@ -151,10 +152,7 @@ int main()
     {
       triangle->draw();
     }
-
-    UpdateShader(position, rotation, scale, camera_pos, camera_target, up, shader);
-    player->draw();
-
+    
     for (auto triangle : WhiteCrossTriangles)
     {
       position = triangle->translateVec;
@@ -163,9 +161,15 @@ int main()
       triangle->translateVec.y += STEP_SIZE;
     }
 
-    std::cout << RoadTriangles.size() << '\n';
-    std::cout << WhiteCrossTriangles.size() << '\n';
-    std::cout << position.y << '\n';
+    // std::cout << player->translateVec.x << '\n';
+    player->handleInput(window, position);
+    UpdateShader(position, rotation, scale, camera_pos, camera_target, up, shader);
+    player->draw();
+
+
+    // std::cout << RoadTriangles.size() << '\n';
+    // std::cout << WhiteCrossTriangles.size() << '\n';
+    // std::cout << position.y << '\n';
     // deleting the first triangle
     update_enviroment(WhiteCrossTriangles, counter, position);
     glfwSwapBuffers(window);
