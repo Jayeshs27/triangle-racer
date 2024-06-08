@@ -3,9 +3,8 @@
 
 Player::Player()
 {
-
-  std::vector<float> playerPos{
-    0.15f, 1.0f, 0.5f, -0.15f, 1.0f, 0.5f, 0.0f, 1.0f, 1.0f,
+  std::vector<float> playerPos = {
+    0.15f, 0.75f, 0.5f, -0.15f, 0.75f, 0.5f, 0.0f, 0.75f, 1.0f,
   };
   lane = 2;
   translateVec = {0.0f, 0.0f, 0.0f};

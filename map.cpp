@@ -1,6 +1,6 @@
 #include "map.h"
-#include "shaders.h"
 #include "color.h"
+#include "shaders.h"
 
 #define WHITE_CROSS_INTERVAL 0.20f
 #define STEP_SIZE 0.01f
@@ -105,9 +105,35 @@ void Enviroment::draw(glm::vec3 &position, glm::vec3 &rotation, glm::vec3 &scale
     triangle->draw();
     triangle->translateVec.y += STEP_SIZE;
   }
+
+  int i = 0;
+  for (auto wall : Walls)
+  {
+    wall->draw(position, rotation, scale, camera_pos, camera_target, up, shader);
+    wall->TranslateVec.y += STEP_SIZE;
+    if (wall->TranslateVec.y > 5.0)
+    {
+      not_required_walls.push_back(i);
+    }
+    i += 1;
+    // std::cout << wall->TranslateVec << '\n';
+  }
 }
 void Enviroment::update_enviroment(unsigned int &counter, glm::vec3 &position)
 {
+
+  for (auto index : not_required_walls)
+  {
+    delete Walls[index];
+  }
+  int offset = 0;
+  for (auto index : not_required_walls)
+  {
+    Walls.erase(Walls.begin() + index - offset);
+    offset += 1;
+  }
+
+  not_required_walls.clear();
 
   if (counter == 60)
   {
@@ -151,6 +177,7 @@ void Enviroment::update_enviroment(unsigned int &counter, glm::vec3 &position)
         0.0f,
       },
       WHITE));
+
     WhiteCrossTriangles.push_back(new TriangleMesh(
       {
         -0.350f,
@@ -178,9 +205,24 @@ void Enviroment::update_enviroment(unsigned int &counter, glm::vec3 &position)
         0.0f,
       },
       WHITE));
+
+    Walls.push_back(new Wall());
     counter = 0;
   }
 }
+
+bool Enviroment::collide_with_wall(Player *player)
+{
+  for (auto wall : Walls)
+  {
+    if(wall->is_player_collide(player)){
+      std::cout << "Game over" << '\n';
+      return true;
+    }
+  }
+  return false;
+}
+
 Enviroment::~Enviroment()
 {
   for (auto Triangle : RoadTriangles)
@@ -191,6 +233,11 @@ Enviroment::~Enviroment()
   {
     delete Triangle;
   }
+  for (auto wall : Walls)
+  {
+    wall->~Wall();
+  }
   RoadTriangles.clear();
   WhiteCrossTriangles.clear();
+  Walls.clear();
 }
