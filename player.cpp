@@ -1,4 +1,5 @@
 #include "player.h"
+#include "color.h"
 
 Player::Player()
 {
@@ -8,7 +9,7 @@ Player::Player()
   };
   lane = 2;
   translateVec = {0.0f, 0.0f, 0.0f};
-  triangle = new TriangleMesh(playerPos, 2);
+  triangle = new TriangleMesh(playerPos, BLUE);
   leftkeyPress = false;
   rightkeyPress = false;
 }

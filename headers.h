@@ -5,6 +5,8 @@
 #include "material.h"
 #include "triangle_mesh.h"
 #include "player.h"
+#include "map.h"
+#include "color.h"
 
 // #define STB_IMAGE_IMPLEMENTATION
 // #include "stb_image.h"

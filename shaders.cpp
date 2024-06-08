@@ -53,3 +53,23 @@ unsigned int make_module(const std::string& filepath, unsigned int module_type) 
     }
     return shaderModule;
 }
+
+void update_shader(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, glm::vec3 camera_pos,
+                  glm::vec3 camera_target, glm::vec3 up, unsigned int &shader)
+{
+  glm::mat4 ModelMatrix(1.f);
+  ModelMatrix = glm::translate(ModelMatrix, position);
+  ModelMatrix = glm::rotate(ModelMatrix, glm::radians(rotation.x), glm::vec3(1.f, 0.f, 0.f));
+  ModelMatrix = glm::rotate(ModelMatrix, glm::radians(rotation.y), glm::vec3(0.f, 1.f, 0.f));
+  ModelMatrix = glm::rotate(ModelMatrix, glm::radians(rotation.z), glm::vec3(0.f, 0.f, 1.f));
+  ModelMatrix = glm::scale(ModelMatrix, scale);
+
+  glm::mat4 view = glm::lookAt(camera_pos, camera_target, up);
+  glm::mat4 projection = glm::perspective(45.0f, 640.0f / 480.0f, 0.1f, 10.0f);
+
+  glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(ModelMatrix));
+  glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, GL_FALSE, glm::value_ptr(view));
+  glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+
+  glUseProgram(shader);
+}
