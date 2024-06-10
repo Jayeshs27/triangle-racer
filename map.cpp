@@ -7,6 +7,10 @@
 
 Enviroment::Enviroment()
 {
+
+  MAX_POSSIBLE_SUBSEQUENT_COINS = 10;
+  MIN_POSSIBLE_SUBSEQUENT_COINS = 3;
+
   std::vector<float> positions1 = {
     1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f,
   };
@@ -87,6 +91,7 @@ Enviroment::Enviroment()
       WhiteCrossTriangles.push_back(new TriangleMesh(whiteTriPos[j], WHITE));
     }
   }
+
 }
 void Enviroment::draw(glm::vec3 &position, glm::vec3 &rotation, glm::vec3 &scale, glm::vec3 &camera_pos,
                       glm::vec3 &camera_target, glm::vec3 &up, unsigned int &shader)
@@ -118,10 +123,22 @@ void Enviroment::draw(glm::vec3 &position, glm::vec3 &rotation, glm::vec3 &scale
     i += 1;
     // std::cout << wall->TranslateVec << '\n';
   }
+
+  i = 0;
+  for (auto coin : Coins)
+  {
+    coin->draw(position, rotation, scale, camera_pos, camera_target, up, shader);
+    coin->translateVec.y += STEP_SIZE;
+    if (coin->translateVec.y > 5.0)
+    {
+      not_required_coins.push_back(i);
+    }
+    i += 1;
+  }
 }
 void Enviroment::update_enviroment(unsigned int &counter, glm::vec3 &position)
 {
-
+  // removing unwanted walls
   for (auto index : not_required_walls)
   {
     delete Walls[index];
@@ -132,8 +149,20 @@ void Enviroment::update_enviroment(unsigned int &counter, glm::vec3 &position)
     Walls.erase(Walls.begin() + index - offset);
     offset += 1;
   }
-
   not_required_walls.clear();
+
+  // removing unwanted coins
+  for (auto index : not_required_coins)
+  {
+    delete Coins[index];
+  }
+  offset = 0;
+  for (auto index : not_required_coins)
+  {
+    Coins.erase(Coins.begin() + index - offset);
+    offset += 1;
+  }
+  not_required_coins.clear();
 
   if (counter == 60)
   {
@@ -206,7 +235,8 @@ void Enviroment::update_enviroment(unsigned int &counter, glm::vec3 &position)
       },
       WHITE));
 
-    Walls.push_back(new Wall());
+    generateWall();
+    generateCoin();
     counter = 0;
   }
 }
@@ -215,10 +245,27 @@ bool Enviroment::collide_with_wall(Player *player)
 {
   for (auto wall : Walls)
   {
-    if(wall->is_player_collide(player)){
-      std::cout << "Game over" << '\n';
+    if (wall->is_player_collide(player))
+    {
       return true;
     }
+  }
+  return false;
+}
+
+bool Enviroment::collide_with_coin(Player *player)
+{
+  int index = -1;
+  for(int i = 0 ; i < Coins.size() ; i++){
+    if(Coins[i]->is_player_collide(player)){
+      index = i;
+      break;
+    }
+  }
+  if(index != -1){
+     delete Coins[index];
+     Coins.erase(Coins.begin() + index);
+     return true;
   }
   return false;
 }
@@ -240,4 +287,41 @@ Enviroment::~Enviroment()
   RoadTriangles.clear();
   WhiteCrossTriangles.clear();
   Walls.clear();
+}
+void Enviroment::generateCoin(){
+  if(current_max_subsequent_coins == current_subsequent_coins){
+    current_max_subsequent_coins = getRandomMaxSubsequentCoins();
+    current_subsequent_coins = 0;
+    current_lane = getRandomLane();
+  }
+  Wall* latest_wall = Walls.back();
+  if(latest_wall->lane != current_lane){
+    Coins.push_back(new Coin(current_lane));
+  }
+  current_subsequent_coins += 1;
+}
+
+void Enviroment::generateWall(){
+  Walls.push_back(new Wall());
+}
+
+unsigned int Enviroment::getRandomLane()
+{
+  std::random_device rnd;
+  std::mt19937 gen(rnd());
+  std::uniform_int_distribution<> distribution(1, 3);
+  int rnd_lane = distribution(gen);
+  // int rnd_lane = 2;
+  // std::cout << "Randome Lane : " << rnd_lane << "\n";
+  return rnd_lane;
+}
+
+unsigned int Enviroment::getRandomMaxSubsequentCoins()
+{
+  std::random_device rnd;
+  std::mt19937 gen(rnd());
+  std::uniform_int_distribution<> distribution(MIN_POSSIBLE_SUBSEQUENT_COINS, MAX_POSSIBLE_SUBSEQUENT_COINS);
+  int tmp = distribution(gen);
+  // std::cout << "Randome subsequent coins : " << tmp << "\n";
+  return tmp;
 }

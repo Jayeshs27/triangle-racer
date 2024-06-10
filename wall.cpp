@@ -41,12 +41,12 @@ void Wall::changeLane(glm::vec3 &translateVec, unsigned int new_lane)
 {
   switch(new_lane) {
     case 1:
-      translateVec.x = -0.675;
+      translateVec.x = 0.675;
       return;
     case 2:
       return;
     case 3:
-      translateVec.x = 0.675;
+      translateVec.x = -0.675;
       return;
   }
 }
@@ -57,6 +57,7 @@ bool Wall::is_player_collide(Player* player){
   }
   return false;
 }
+
 Wall::~Wall()
 {
   for (auto triangle : WallTriangles)

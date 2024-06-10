@@ -23,7 +23,7 @@ void Player::goLeft()
   if (lane > 1)
   {
     lane -= 1;
-    translateVec.x += 0.5f;
+    translateVec.x += 0.65f;
   }
 }
 void Player::goRight()
@@ -31,7 +31,7 @@ void Player::goRight()
   if (lane < 3)
   {
     lane += 1;
-    translateVec.x -= 0.5f;
+    translateVec.x -= 0.65f;
   }
 }
 
