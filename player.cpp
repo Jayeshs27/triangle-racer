@@ -8,7 +8,7 @@ Player::Player()
   };
   lane = 2;
   translateVec = {0.0f, 0.0f, 0.0f};
-  triangle = new TriangleMesh(playerPos, BLUE);
+  triangle = new TriangleMesh(playerPos, ORANGE);
   leftkeyPress = false;
   rightkeyPress = false;
 }

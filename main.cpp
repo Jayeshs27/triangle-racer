@@ -1,9 +1,7 @@
 #include "headers.h"
 #include "libraries.h"
-
-#include "coin.h"
 // #include <ft2build.h>
-// #include FT_FREETYPE_H
+// #include FT_FREETYPE_Hx
 
 void RematchOptionInput(GLFWwindow *window, int &option);
 
@@ -79,6 +77,8 @@ int main()
         // std::cout << position.y << '\n';
         // deleting the first triangle
         // std::cout << game_env->Walls.size() << '\n';
+
+        
         isGameOver = game_env->collide_with_wall(player);
         if(game_env->collide_with_coin(player)){
            std::cout << " + 10 " << '\n';

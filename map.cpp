@@ -10,6 +10,8 @@ Enviroment::Enviroment()
 
   MAX_POSSIBLE_SUBSEQUENT_COINS = 10;
   MIN_POSSIBLE_SUBSEQUENT_COINS = 3;
+  current_max_subsequent_coins = 0;
+  current_subsequent_coins = 0;
 
   std::vector<float> positions1 = {
     1.0f, 1.0f, 0.0f, 1.0f, -1.0f, 0.0f, -1.0f, 1.0f, 0.0f,
@@ -91,7 +93,6 @@ Enviroment::Enviroment()
       WhiteCrossTriangles.push_back(new TriangleMesh(whiteTriPos[j], WHITE));
     }
   }
-
 }
 void Enviroment::draw(glm::vec3 &position, glm::vec3 &rotation, glm::vec3 &scale, glm::vec3 &camera_pos,
                       glm::vec3 &camera_target, glm::vec3 &up, unsigned int &shader)
@@ -256,16 +257,19 @@ bool Enviroment::collide_with_wall(Player *player)
 bool Enviroment::collide_with_coin(Player *player)
 {
   int index = -1;
-  for(int i = 0 ; i < Coins.size() ; i++){
-    if(Coins[i]->is_player_collide(player)){
+  for (int i = 0; i < Coins.size(); i++)
+  {
+    if (Coins[i]->is_player_collide(player))
+    {
       index = i;
       break;
     }
   }
-  if(index != -1){
-     delete Coins[index];
-     Coins.erase(Coins.begin() + index);
-     return true;
+  if (index != -1)
+  {
+    delete Coins[index];
+    Coins.erase(Coins.begin() + index);
+    return true;
   }
   return false;
 }
@@ -284,24 +288,42 @@ Enviroment::~Enviroment()
   {
     wall->~Wall();
   }
+  for (auto coin : Coins)
+  {
+    coin->~Coin();
+  }
   RoadTriangles.clear();
   WhiteCrossTriangles.clear();
   Walls.clear();
+  Coins.clear();
 }
-void Enviroment::generateCoin(){
-  if(current_max_subsequent_coins == current_subsequent_coins){
+void Enviroment::generateCoin()
+{
+  if (current_max_subsequent_coins == current_subsequent_coins)
+  {
     current_max_subsequent_coins = getRandomMaxSubsequentCoins();
     current_subsequent_coins = 0;
     current_lane = getRandomLane();
   }
-  Wall* latest_wall = Walls.back();
-  if(latest_wall->lane != current_lane){
+
+  if (Walls.empty())
+  {
     Coins.push_back(new Coin(current_lane));
   }
+  else
+  {
+
+    Wall *latest_wall = Walls.back();
+    if(latest_wall->lane != current_lane){
+      Coins.push_back(new Coin(current_lane));
+    }
+  }
+
   current_subsequent_coins += 1;
 }
 
-void Enviroment::generateWall(){
+void Enviroment::generateWall()
+{
   Walls.push_back(new Wall());
 }
 

@@ -3,6 +3,7 @@
 Coin::Coin(unsigned int lane)
 {
   radius = 0.1f;
+  rotationAngle = 0.0f;
   this->lane = lane;
   translateVec = {0.0f, 0.0f, 0.0f};
   std::vector<float> center = {0.0f, -3.0f, 1.0f};
@@ -52,6 +53,7 @@ void Coin::draw(glm::vec3 &position, glm::vec3 &rotation, glm::vec3 &scale, glm:
     triangle->draw();
   }
 }
+
 void Coin::changeLane(unsigned int lane){
    switch(lane) {
     case 1:

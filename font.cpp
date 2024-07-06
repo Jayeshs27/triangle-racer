@@ -1,9 +1,9 @@
 // #include "headers.h"
-// #include "third_party/ft2build.h"
+// #include <ft2build.h>
 // #include FT_FREETYPE_H
 
 // #include <map>
-// #include <iostream>
+// #include <iostream> 
 // #include <string>
 
 // // Define a structure to hold character information

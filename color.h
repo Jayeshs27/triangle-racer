@@ -9,6 +9,7 @@ enum color {
     WHITE,
     YELLOW,
     BLACK,
+    ORANGE,
 };
 
 #endif // __COLOR_H__
