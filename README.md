@@ -4,3 +4,4 @@
 3. Designed and programmed game elements, including a controllable player represented by a blue triangle, moving rectangular obstacles, and yellow coins.
 
 ## Demo
+[triangle-racer-demo.webm](https://github.com/Jayeshs27/triangle-racer/assets/117480214/7839e3ee-2d7a-433b-9e22-0be707010174)
